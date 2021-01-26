@@ -33,7 +33,6 @@ const numToBlocks = (number) => {
 
 const callback = function (level) {
   const value = (level / 100) * 75;
-  console.log(level);
   const message = numToBlocks(value).padEnd(15, " ");
   const topLine = "L" + message;
   const bottomLine = "R" + message;
