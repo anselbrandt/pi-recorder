@@ -52,27 +52,28 @@ const arProcess = spawn(
     "-D",
     arOptions.device,
     "-V",
-    "mono",
+    "stereo",
   ],
   { stdio: ["ignore", "ignore", "pipe"] }
 );
 
 arProcess.stderr.on("data", function (data) {
-  let level = parseInt(String(data).substr(54, 2));
-  if (isNaN(level)) {
-    // Recording WAVE 'stdin' : Signed 24 bit Little Endian in 3bytes, Rate 44100 Hz, Stereo\n
-    const message = String(data);
-    if (
-      message !==
-      "Recording WAVE 'stdin' : Signed 24 bit Little Endian in 3bytes, Rate 44100 Hz, Stereo\n"
-    ) {
-      const message = "Over".padStart(15, " ");
-      const topLine = "L" + message;
-      const bottomLine = "R" + message;
-      lcd.home();
-      lcd.message(topLine + "\n" + bottomLine);
-    }
-    return;
+  const line = String(data);
+  if (
+    line !==
+    "Recording WAVE 'stdin' : Signed 24 bit Little Endian in 3bytes, Rate 44100 Hz, Stereo\n"
+  ) {
+    const left = line.substr(36, 2);
+    const right = line.substr(40, 2);
+    const topLine =
+      left === "MA"
+        ? "L" + "Over".padStart(15, " ")
+        : "L" + numToBlocks(left).padEnd(15, " ");
+    const bottomLine =
+      right === "MA"
+        ? "R" + "Over".padStart(15, " ")
+        : "R" + numToBlocks(right).padEnd(15, " ");
+    lcd.home();
+    lcd.message(topLine + "\n" + bottomLine);
   }
-  callback(level);
 });

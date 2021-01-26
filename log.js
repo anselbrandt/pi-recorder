@@ -19,16 +19,19 @@ const arProcess = spawn(
     "-D",
     arOptions.device,
     "-V",
-    "mono",
+    "stereo",
   ],
   { stdio: ["ignore", "ignore", "pipe"] }
 );
 
 arProcess.stderr.on("data", function (data) {
-  console.log(String(data));
-  // let level = parseInt(String(data).substr(54, 2));
-  // if (isNaN(level)) {
-  //   console.log("Over");
-  //   return;
-  // }
+  const line = String(data);
+  if (
+    line !==
+    "Recording WAVE 'stdin' : Signed 24 bit Little Endian in 3bytes, Rate 44100 Hz, Stereo\n"
+  ) {
+    const left = line.substr(36, 2);
+    const right = line.substr(40, 2);
+    console.log(left, right);
+  }
 });
