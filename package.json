@@ -1,0 +1,9 @@
+{
+  "name": "pi-recorder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "adafruit-pi-lcd": "https://github.com/anselbrandt/adafruit-pi-lcd"
+  }
+}
