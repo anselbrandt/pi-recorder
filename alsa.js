@@ -38,8 +38,14 @@ const numToBlocks = (number) => {
 // Example: 2 Bytes (AlsaFormat.S16_LE) * 2 (numChannels) * 32 (periodSize) = 128 Bytes
 let i = 0;
 captureInstance.on("audio", (data) => {
-  while (i < 1) {
-    console.log(data);
-    i++;
+  let left = [];
+  for (let i = 0; i < data.length; i = i + 6) {
+    left.push(data.slice(i, i + 3));
   }
+  let right = [];
+  for (let i = 3; i < data.length; i = i + 6) {
+    right.push(data.slice(i, i + 3));
+  }
+  const leftLevels = left.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
+  const rightLevels = right.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
 });

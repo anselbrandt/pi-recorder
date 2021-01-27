@@ -192,3 +192,16 @@ const buffer = [
   23,
   238,
 ];
+
+let left = [];
+for (let i = 0; i < buffer.length; i = i + 6) {
+  left.push(buffer.slice(i, i + 3));
+}
+let right = [];
+for (let i = 3; i < buffer.length; i = i + 6) {
+  right.push(buffer.slice(i, i + 3));
+}
+const leftLevels = left.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
+const rightLevels = right.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
+
+console.log(rightLevels);
