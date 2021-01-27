@@ -31,15 +31,6 @@ const numToBlocks = (number) => {
   return string;
 };
 
-const callback = function (level) {
-  const value = (level / 100) * 75;
-  const message = numToBlocks(value).padEnd(15, " ");
-  const topLine = "L" + message;
-  const bottomLine = "R" + message;
-  lcd.home();
-  lcd.message(topLine + "\n" + bottomLine);
-};
-
 const arProcess = spawn(
   "arecord",
   [
