@@ -48,4 +48,8 @@ captureInstance.on("audio", (data) => {
   }
   const leftLevels = left.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
   const rightLevels = right.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
+  const topLine = "L" + numToBlocks(leftLevels).padEnd(15, " ");
+  const bottomLine = "R" + numToBlocks(rightLevels).padEnd(15, " ");
+  lcd.home();
+  lcd.message(topLine + "\n" + bottomLine);
 });
