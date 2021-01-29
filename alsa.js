@@ -35,8 +35,7 @@ const numToBlocks = (number) => {
 
 // data is an Uint8Array
 // Buffer size = numChannels * formatByteSize * periodSize
-// Example: 2 Bytes (AlsaFormat.S16_LE) * 2 (numChannels) * 32 (periodSize) = 128 Bytes
-let i = 0;
+// Example: 2 Bytes (AlsaFormat.S24_LE) * 2 (numChannels) * 32 (periodSize) = 192 Bytes
 captureInstance.on("audio", (data) => {
   let left = [];
   for (let i = 0; i < data.length; i = i + 6) {
@@ -48,8 +47,11 @@ captureInstance.on("audio", (data) => {
   }
   const leftLevels = left.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
   const rightLevels = right.map((entry) => ((entry[0] / 255) * 100).toFixed(0));
-  const topLine = "L" + numToBlocks(leftLevels).padEnd(15, " ");
-  const bottomLine = "R" + numToBlocks(rightLevels).padEnd(15, " ");
-  lcd.home();
-  lcd.message(topLine + "\n" + bottomLine);
+  const leftMax = Math.max(...leftLevels);
+  const rightMax = Math.max(...rightLevels);
+  // const topLine = "L" + numToBlocks(leftMax).padEnd(15, " ");
+  // const bottomLine = "R" + numToBlocks(rightMax).padEnd(15, " ");
+  // lcd.home();
+  // lcd.message(topLine + "\n" + bottomLine);
+  console.log(leftMax, rightMax);
 });
