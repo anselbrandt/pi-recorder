@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "adafruit-pi-lcd": "https://github.com/anselbrandt/adafruit-pi-lcd",
-    "alsa-capture": "^0.2.0"
+    "alsa-capture": "^0.2.0",
+    "midi": "^1.0.0"
   }
 }
