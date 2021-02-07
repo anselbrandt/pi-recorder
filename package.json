@@ -6,6 +6,7 @@
   "dependencies": {
     "adafruit-pi-lcd": "https://github.com/anselbrandt/adafruit-pi-lcd",
     "alsa-capture": "^0.2.0",
+    "mic": "^2.1.2",
     "midi": "^1.0.0"
   }
 }
