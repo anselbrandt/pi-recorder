@@ -1,6 +1,7 @@
 const LCDPLATE = require("adafruit-pi-lcd");
 const lcd = new LCDPLATE(1, 0x20);
 const midi = require("midi");
+const { MidiMessage } = require("midi-message-parser");
 
 const notes = [
   "C -1",
@@ -124,6 +125,13 @@ const notes = [
   "Bb 8",
   "B 8",
   "C 9",
+  "C# 9",
+  "D 9",
+  "Eb 9",
+  "E 9",
+  "F 9",
+  "F# 9",
+  "G 9",
 ];
 
 lcd.backlight(lcd.colors.ON);
@@ -134,9 +142,15 @@ const midiDevice = input.getPortName(3).split(":")[0];
 lcd.message(midiDevice + "\n" + "Ready for MIDI");
 
 input.on("message", (deltaTime, message) => {
+  const parsed = new MidiMessage(message);
+  const output = `${parsed.type}\n${parsed.channel} ${parsed.number} ${parsed.value}`;
   const note = notes[message[1]];
   lcd.clear();
-  lcd.message(note);
+  if (parsed.type === "noteon" || parsed.type === "noteoff") {
+    lcd.message(`${parsed.type}\n${note}`);
+  } else {
+    lcd.message(output);
+  }
 });
 input.openPort(3);
 input.ignoreTypes(false, false, false);
